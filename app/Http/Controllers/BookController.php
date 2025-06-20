@@ -7,7 +7,14 @@ use Illuminate\Http\Request;
 
 
 class BookController extends Controller
-{
+
+ {
+
+  public function welcome()
+  {
+    return view('welcome');
+  }
+
   public function index()
   {
     $books = Book::all();
