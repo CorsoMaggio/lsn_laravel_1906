@@ -8,35 +8,69 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index()
-    {
-        $books = Book::all();
-        return view('index', ['books' => $books]);
-    }
-    public function create()
-    {
-        return view('create');
-    }
+  public function index()
+  {
+    $books = Book::all();
+    return view('index', ['books' => $books]);
+  }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'pages' => ['required', 'integer'],
-        ]);
+  public function create()
+  {
+    return view('create');
+  }
 
-        Book::create([
-            'name' => $request->name,
-            'years' => $request->years,
-            'pages' => $request->pages,
-        ]);
-        return redirect()
-            ->route('index')
-            ->with('success', 'Complimenti! Libroi creato con successo!');
-    }
+  public function store(Request $request)
+  {
+    $request->validate([
+      'name' => 'required',
+      'years' => 'integer',
+      'pages' => ['required', 'integer'],
+    ]);
 
-    public function show(Book $book)
-    {
-        return view('show', ['book' => $book]);
-    }
+    Book::create([
+      'name' => $request->name,
+      'years' => $request->years,
+      'pages' => $request->pages,
+    ]);
+    return redirect()
+      ->route('index')
+      ->with('success', 'Libro creato con successo!');
+  }
+
+  public function show(Book $book)
+  {
+    return view('show', ['book' => $book]);
+  }
+
+  public function edit(Book $book)
+  {
+    return view('edit', ['book' => $book]);
+  }
+
+  public function update(Request $request, Book $book)
+  {
+    $request->validate([
+      'name' => 'required',
+      'years' => 'integer',
+      'pages' => ['required', 'integer'],
+    ]);
+
+    $book->update([
+      'name' => $request->name,
+      'years' => $request->years,
+      'pages' => $request->pages,
+    ]);
+    return redirect()
+      ->route('index')
+      ->with('success', 'Modificato con successo!');
+  }
+
+  public function destroy(Book $book)
+  {
+    //azione
+    $book->delete();
+    return redirect()
+      ->route('index')
+      ->with('success', 'Eliminato con successo!');
+  }
 }

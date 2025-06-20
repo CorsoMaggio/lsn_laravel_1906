@@ -11,82 +11,56 @@
 </head>
 
 <body>
-    <x-navbar>
-
-        <div class="container">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <div>
-            @endif
+    <x-template>
+        <div class="container mt-4">
             <h1>Book info</h1>
 
-            <form method="POST" action={{ 'route(store)' }}>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('store') }}">
                 @csrf
 
-                <div>
+                <div class="mb-3">
                     <label for="name" class="form-label">Name of the book</label>
+                    <input type="text" name="name" id="name"
+                        class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
+                        placeholder="Book Name">
+                    @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
-                <input name="name" value="{{ old('name') }}" class="form-control" id="name"
-                    placeholder="Book Name">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-
-                        @error('name')
-                            {{ $message }}
-                        @enderror
-
-                    </div>
-                @endif
-
-                <div class>
-                    <label for="years" aria-required="" class="form-label">Publishing Year</label>
-                    <input name="years" class="form-control" id="years" placeholder="Year">
+                <div class="mb-3">
+                    <label for="years" class="form-label">Publishing Year</label>
+                    <input type="text" name="years" id="years"
+                        class="form-control @error('years') is-invalid @enderror" placeholder="Year"
+                        value="{{ old('years') }}">
+                    @error('years')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
+
+                <div class="mb-3">
+                    <label for="pages" class="form-label">Pages</label>
+                    <input type="text" name="pages" id="pages"
+                        class="form-control @error('pages') is-invalid @enderror" value="{{ old('pages') }}"
+                        placeholder="Pages">
+                    @error('pages')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <button type="submit" class="btn btn-primary">Salva</button>
+            </form>
         </div>
-        @if ($errors->any())
-            <div class="alert alert-danger">
+    </x-template>
 
-                @error('year')
-                    {{ $message }}
-                @enderror
-
-            </div>
-        @endif
-        <div>
-            <label for="pages" class="form-label">Pages</label>
-        </div>
-        <input name="pages" value="{{ old('pages') }}" class="form-control" id="pages" placeholder="pages">
-        @if ($errors->any())
-            <div class="alert alert-danger">
-
-                @error('pages')
-                    {{ $message }}
-                @enderror
-
-            </div>
-        @endif
-
-        @if (session('success'))
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:">
-                    <use xlink:href="#check-circle-fill" />
-                </svg> {{ session('success') }}
-                <div>
-                    Libro salvato!</div>
-            </div>
-        @endif
-        <button type="submit" class="btn btn-primary">Send Message</button>
-
-        </form>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

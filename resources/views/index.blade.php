@@ -1,24 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-template>
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ $title ?? 'Homepage' }}</title>
-    @vite(['rescources/css/app.css', 'resources/js/app.js'])
+    <ul>
+        @foreach ($books as $book)
+           <li>
+    {{ $book->name }} {{ $book->years }} |
+    <a href="{{ route('show', $book) }}">Vedi dettagli</a> |
+    <a href="{{ route('edit', $book) }}">Modifica</a> |
 
-</head>
+    
+    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $book->id }}">
+        Elimina
+    </button>
 
-<body>
-
-    <x-navbar />
-    <main class="container mt-4">
-
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+    <!-- Modal che scatta scegliendo "Elimina" -->
+    <div class="modal fade" id="deleteModal-{{ $book->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $book->id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel-{{ $book->id }}">Conferma Eliminazione</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+                <div class="modal-body">
+                    Sei sicuro di voler eliminare? <strong>{{ $book->name }}</strong>?
+                </div>
+                <div class="modal-footer">
+                    <form action="{{ route('destroy', $book) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                        <button type="submit" class="btn btn-danger">Conferma</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+        @endforeach
+    </ul>
+</x-template>
