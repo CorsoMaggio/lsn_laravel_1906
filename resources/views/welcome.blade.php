@@ -15,18 +15,44 @@
 </head>
 
 <body>
-    <nav class="navbar bg-body-tertiary justify-content-center">
-        <button class="btn btn-outline-success me-2" type="button" a href="/register">Registrati</button>
-        <button class="btn btn-sm btn-outline-secondary" type="button" a href="/login">Log
-            In</button>
 
-    </nav>
-    <main>
-        <div class="d-flex justify-content-center"> 
-            <h1>Benvenuto nella homepage. Welcome to the homepage.</h1>
+    <x-template title="Homepage">
+        <div class="container mt-5">
+            <div class="p-5 mb-4 bg-light rounded-3">
+                <div class="container-fluid py-5">
+                    <h1 class="display-5 fw-bold">La nostra libreria</h1>
+
+                    <ul class="fs-5">
+                        @foreach ($books as $book)
+                            <li>
+                                @auth
+                                    <a href="{{ route('show', $book) }}" class="text-decoration-none fw-bold">
+                                        {{ $book->name }}
+                                    </a><br>
+                                    <div>
+                                        Pagine: {{ $book->pages }}<br>
+                                        Anno di pubblicazione: {{ $book->years }}
+                                    </div>
+                                @else
+                                    <strong>{{ $book->name }}</strong>
+                                @endauth
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    @guest
+                        <a href="{{ route('register') }}" class="btn btn-primary btn-lg mt-4">
+                            Registrati per vedere i dettagli dei libri
+                        </a>
+                    @endguest
+                </div>
+            </div>
         </div>
+    </x-template>
+
+
     </main>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
     </script>

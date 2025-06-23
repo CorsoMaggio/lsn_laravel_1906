@@ -8,17 +8,18 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 
- {
+{
 
   public function welcome()
   {
-    return view('welcome');
+    $books = Book::all();
+    return view('welcome', compact('books'));
   }
 
   public function index()
   {
     $books = Book::all();
-    return view('index', ['books' => $books]);
+    return view('welcome', compact('books'));
   }
 
   public function create()
@@ -77,7 +78,7 @@ class BookController extends Controller
     //azione
     $book->delete();
     return redirect()
-      ->route('index')
+      ->route('destroy')
       ->with('success', 'Eliminato con successo!');
   }
 }
