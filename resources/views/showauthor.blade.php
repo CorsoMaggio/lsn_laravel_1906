@@ -6,21 +6,18 @@
             </div>
         @endif
 
-        <h2>Dettagli del libro</h2>
-        <p><strong>Nome:</strong> {{ $book->name }}</p>
-        <p><strong>Pagine:</strong> {{ $book->pages }}</p>
-        <p><strong>Anno di pubblicazione:</strong> {{ $book->years }}</p>
+        <h2>Dettagli</h2>
+        <p><strong>Nome:</strong> {{ $author->name }}</p>
+        <p><strong>Data Di Nascita:</strong> {{ $author->dob }}</p>
 
         @auth
-            <a href="{{ route('edit', $book) }}" class="btn btn-warning">Modifica</a>
+            <a href="{{ route('editauthor', $author) }}" class="btn btn-warning">Modifica</a>
 
-            <!-- Delete Button triggers Modal -->
             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 Elimina
             </button>
 
-            <!-- Back to list button -->
-            <a href="{{ route('index') }}" class="btn btn-secondary">Torna alla lista</a>
+            <a href="{{ route('indexauthor') }}" class="btn btn-secondary">Torna alla lista</a>
 
             <!-- Modal -->
             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -31,10 +28,10 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
                         </div>
                         <div class="modal-body">
-                            Sei sicuro di voler eliminare <strong>{{ $book->name }}</strong>?
+                            Sei sicuro di voler eliminare <strong>{{ $author->name }}</strong>?
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ route('destroy', $book) }}" method="POST">
+                            <form action="{{ route('destroyauthor', $author) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
@@ -47,4 +44,3 @@
         @endauth
     </div>
 </x-template>
-

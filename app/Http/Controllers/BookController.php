@@ -78,7 +78,7 @@ class BookController extends Controller
     //azione
     $book->delete();
     return redirect()
-      ->route('destroy')
+      ->route('index')
       ->with('success', 'Eliminato con successo!');
   }
 }
