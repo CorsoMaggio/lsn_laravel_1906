@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 
@@ -13,18 +14,20 @@ class BookController extends Controller
   public function welcome()
   {
     $books = Book::all();
-    return view('welcome', compact('books'));
+    $authors = Author::all();
+    return view('welcome', compact('books', 'authors'));
   }
 
   public function index()
   {
     $books = Book::all();
-    return view('welcome', compact('books'));
+    return view('index', compact('books'));
   }
 
   public function create()
   {
-    return view('create');
+    $authors = Author::all();
+    return view('create', compact('authors'));
   }
 
   public function store(Request $request)
@@ -33,12 +36,14 @@ class BookController extends Controller
       'name' => 'required',
       'years' => 'integer',
       'pages' => ['required', 'integer'],
+      'author_id' => 'required',
     ]);
 
     Book::create([
       'name' => $request->name,
       'years' => $request->years,
       'pages' => $request->pages,
+      'author_id' => $request->author_id,
     ]);
     return redirect()
       ->route('index')
@@ -52,21 +57,31 @@ class BookController extends Controller
 
   public function edit(Book $book)
   {
-    return view('edit', ['book' => $book]);
+    $books = Book::all();
+    $authors = Author::all();
+    return view('edit', compact('book', 'authors'));
   }
 
-  public function update(Request $request, Book $book)
+  public function update(Request $request, Book $book, Author $author)
   {
     $request->validate([
       'name' => 'required',
       'years' => 'integer',
       'pages' => ['required', 'integer'],
+      'author_id' => 'required',
     ]);
 
     $book->update([
       'name' => $request->name,
       'years' => $request->years,
       'pages' => $request->pages,
+      'author_id' => $request->author_id,
+    ]);
+
+    $author->update([
+      'name' => $request->name,
+      'dob' => $request->dob,
+
     ]);
     return redirect()
       ->route('index')

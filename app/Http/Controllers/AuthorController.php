@@ -8,18 +8,19 @@ use Illuminate\Http\Request;
 class AuthorController extends Controller
 
 {
-    public function indexauthor()
+    public function index()
     {
         $authors = Author::all();
-        return view('indexauthor');
+
+        return view('authors.index', compact('authors'));
     }
 
-    public function createauthor()
+    public function create()
     {
-        return view('addauthor');
+        return view('authors.create');
     }
 
-    public function storeauthor(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -31,21 +32,21 @@ class AuthorController extends Controller
             'dob' => $request->dob,
         ]);
         return redirect()
-            ->route('indexauthor')
+            ->route('authors.index')
             ->with('success', 'Autore creato con successo!');
     }
 
-    public function showauthor(Author $author)
+    public function show(Author $author)
     {
-        return view('showauthor', ['author' => $author]);
+        return view('authors.show', ['author' => $author]);
     }
 
-    public function editauthor(Author $author)
+    public function edit(Author $author)
     {
-        return view('editauthor', ['author' => $author]);
+        return view('authors.update', ['author' => $author]);
     }
 
-    public function updateauthor(Request $request, Author $author)
+    public function update(Request $request, Author $author)
     {
         $request->validate([
             'name' => 'required',
@@ -58,16 +59,16 @@ class AuthorController extends Controller
 
         ]);
         return redirect()
-            ->route('indexauthor')
+            ->route('authors.index')
             ->with('success', 'Modificato con successo!');
     }
 
-    public function destroyauthor(Author $author)
+    public function destroy(Author $author)
     {
         //azione
         $author->delete();
         return redirect()
-            ->route('indexauthor')
+            ->route('authors.index')
             ->with('success', 'Eliminato con successo!');
     }
 }

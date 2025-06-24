@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
 {
-    use HasFactory;
-  protected $fillable = ['firstname', 'lastname'];
 
-  public function author()
+  protected $fillable = ['name', 'dob'];
+  protected $casts = [
+    'dob' => 'datetime'
+  ];
+  public function books()
   {
-    return $this->belongsTo(Author::class);
+    return $this->hasMany(book::class);
   }
 }
-

@@ -21,7 +21,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('storeauthor') }}">
+            <form method="POST" action="{{ route('authors.store') }}">
                 @csrf
 
                 <div class="mb-3">

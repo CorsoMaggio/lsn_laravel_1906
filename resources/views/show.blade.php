@@ -10,19 +10,26 @@
         <p><strong>Nome:</strong> {{ $book->name }}</p>
         <p><strong>Pagine:</strong> {{ $book->pages }}</p>
         <p><strong>Anno di pubblicazione:</strong> {{ $book->years }}</p>
+        @if ($book->author)
+            <p><strong>Autore:</strong>
+                <a href="{{ route('authors.show', $book->author) }}">
+                    {{ $book->author->name }}
+                </a>
+            </p>
+      
+        @endif
 
         @auth
             <a href="{{ route('edit', $book) }}" class="btn btn-warning">Modifica</a>
 
-            <!-- Delete Button triggers Modal -->
             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 Elimina
             </button>
 
-            <!-- Back to list button -->
+
             <a href="{{ route('index') }}" class="btn btn-secondary">Torna alla lista</a>
 
-            <!-- Modal -->
+
             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -47,4 +54,3 @@
         @endauth
     </div>
 </x-template>
-

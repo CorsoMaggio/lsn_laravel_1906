@@ -8,18 +8,18 @@
 
         <h2>Dettagli</h2>
         <p><strong>Nome:</strong> {{ $author->name }}</p>
-        <p><strong>Data Di Nascita:</strong> {{ $author->dob }}</p>
+        <p><strong>Data di Nascita:</strong> {{ $author->dob }}</p>
 
         @auth
-            <a href="{{ route('editauthor', $author) }}" class="btn btn-warning">Modifica</a>
+            <a href="{{ route('authors.edit', $author) }}" class="btn btn-warning">Modifica</a>
 
+            <!--Modal -->
             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 Elimina
             </button>
 
-            <a href="{{ route('indexauthor') }}" class="btn btn-secondary">Torna alla lista</a>
+            <a href="{{ route('authors.index') }}" class="btn btn-secondary">Torna alla lista</a>
 
-            <!-- Modal -->
             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -31,7 +31,7 @@
                             Sei sicuro di voler eliminare <strong>{{ $author->name }}</strong>?
                         </div>
                         <div class="modal-footer">
-                            <form action="{{ route('destroyauthor', $author) }}" method="POST">
+                            <form action="{{ route('authors.destroy', $author) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>

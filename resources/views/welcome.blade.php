@@ -1,63 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
+ <x-template title="Homepage">
+     <div class="container mt-5">
+         <div class="row">
+             <!-- LIBRI -->
+             <div class="col-md-6">
+                 <div class="p-4 bg-light rounded-3">
+                     <h2>Libri</h2>
+                     <ul class="list-unstyled">
+                         @foreach ($books as $book)
+                             <li class="mb-3 d-flex align-items-center justify-content-between">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Libreria
+                                 <a href="{{ route('show', $book) }}" class="fw-bold text-decoration-none">
+                                     {{ $book->name }}
+                                 </a>
 
-    </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+                                 @auth
+                                     <div class="btn-group btn-group-sm" role="group" aria-label="Azioni libro">
+                                         <a href="{{ route('show', $book) }}" class="btn btn-outline-primary">Dettagli</a>
+                                         <a href="{{ route('edit', $book) }}" class="btn btn-outline-warning">Modifica</a>
 
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-</head>
+                                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                             data-bs-target="#deleteBookModal-{{ $book->id }}">
+                                             Elimina
+                                         </button>
+                                     </div>
 
-<body>
+                                     <!-- Modal -->>
+                                     <div class="modal fade" id="deleteBookModal-{{ $book->id }}" tabindex="-1"
+                                         aria-labelledby="deleteBookLabel-{{ $book->id }}" aria-hidden="true">
+                                         <div class="modal-dialog">
+                                             <div class="modal-content">
+                                                 <div class="modal-header">
+                                                     <h5 class="modal-title" id="deleteBookLabel-{{ $book->id }}">
+                                                         Conferma Eliminazione</h5>
+                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                         aria-label="Chiudi"></button>
+                                                 </div>
+                                                 <div class="modal-body">
+                                                     Sei sicuro di voler eliminare <strong>{{ $book->name }}</strong>?
+                                                 </div>
+                                                 <div class="modal-footer">
+                                                     <form action="{{ route('destroy', $book) }}" method="POST">
+                                                         @csrf
+                                                         @method('DELETE')
+                                                         <button type="button" class="btn btn-secondary"
+                                                             data-bs-dismiss="modal">Annulla</button>
+                                                         <button type="submit" class="btn btn-danger">Conferma</button>
+                                                     </form>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 @endauth
+                             </li>
+                         @endforeach
+                     </ul>
+                 </div>
+             </div>
 
-    <x-template title="Homepage">
-        <div class="container mt-5">
-            <div class="p-5 mb-4 bg-light rounded-3">
-                <div class="container-fluid py-5">
-                    <h1 class="display-5 fw-bold">La nostra libreria</h1>
+             <!-- AUTORI -->
+             <div class="col-md-6">
+                 <div class="p-4 bg-light rounded-3">
+                     <h2>Autori</h2>
+                     <ul class="list-unstyled">
+                         @foreach ($authors as $author)
+                             <li class="mb-3 d-flex align-items-center justify-content-between">
 
-                    <ul class="fs-5">
-                        @foreach ($books as $book)
-                            <li>
-                                @auth
-                                    <a href="{{ route('show', $book) }}" class="text-decoration-none fw-bold">
-                                        {{ $book->name }}
-                                    </a><br>
-                                    <div>
-                                        Pagine: {{ $book->pages }}<br>
-                                        Anno di pubblicazione: {{ $book->years }}
-                                    </div>
-                                @else
-                                    <strong>{{ $book->name }}</strong>
-                                @endauth
-                            </li>
-                        @endforeach
-                    </ul>
+                                 <a href="{{ route('authors.show', $author) }}" class="fw-bold text-decoration-none">
+                                     {{ $author->name }}
+                                 </a>
 
-                    @guest
-                        <a href="{{ route('register') }}" class="btn btn-primary btn-lg mt-4">
-                            Registrati per vedere i dettagli dei libri
-                        </a>
-                    @endguest
-                </div>
-            </div>
-        </div>
+                                 @auth
+                                     <div class="btn-group btn-group-sm" role="group" aria-label="Azioni autore">
+                                         <a href="{{ route('authors.show', $author) }}"
+                                             class="btn btn-outline-primary">Dettagli</a>
+                                         <a href="{{ route('authors.edit', $author) }}"
+                                             class="btn btn-outline-warning">Modifica</a>
 
-        
-    </x-template>
+                                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                             data-bs-target="#deleteAuthorModal-{{ $author->id }}">
+                                             Elimina
+                                         </button>
+                                     </div>
 
-
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+                                     <<!-- MODAL PER ELIMINARE -->>
+                                         <div class="modal fade" id="deleteAuthorModal-{{ $author->id }}" tabindex="-1"
+                                             aria-labelledby="deleteAuthorLabel-{{ $author->id }}" aria-hidden="true">
+                                             <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                     <div class="modal-header">
+                                                         <h5 class="modal-title"
+                                                             id="deleteAuthorLabel-{{ $author->id }}">
+                                                             Conferma Eliminazione</h5>
+                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                             aria-label="Chiudi"></button>
+                                                     </div>
+                                                     <div class="modal-body">
+                                                         Sei sicuro di voler eliminare
+                                                         <strong>{{ $author->name }}</strong>?
+                                                     </div>
+                                                     <div class="modal-footer">
+                                                         <form action="{{ route('authors.destroy', $author) }}"
+                                                             method="POST">
+                                                             @csrf
+                                                             @method('DELETE')
+                                                             <button type="button" class="btn btn-secondary"
+                                                                 data-bs-dismiss="modal">Annulla</button>
+                                                             <button type="submit" class="btn btn-danger">Conferma</button>
+                                                         </form>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     @endauth
+                             </li>
+                         @endforeach
+                     </ul>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </x-template>

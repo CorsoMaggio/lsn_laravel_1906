@@ -9,10 +9,13 @@
                         <a class="nav-link" href="{{ route('index') }}">Libri</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('authors.index') }}">Autori</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('create') }}">Aggiungi Libro</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('createauthor') }}">Aggiungi Autore</a>
+                        <a class="nav-link" href="{{ route('authors.create') }}">Aggiungi Autore</a>
                     </li>
                 @endauth
 

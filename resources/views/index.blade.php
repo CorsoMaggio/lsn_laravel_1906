@@ -8,16 +8,15 @@
     <ul>
         @foreach ($books as $book)
            <li>
-    {{ $book->name }} {{ $book->years }} |
-    <a href="{{ route('show', $book) }}">Vedi dettagli</a> |
-    <a href="{{ route('edit', $book) }}">Modifica</a> |
+    {{ $book->name }} {{ $book->years }} 
+    <a href="{{ route('show', $book) }}">Vedi dettagli</a> 
+    <a href="{{ route('edit', $book) }}">Modifica</a> 
 
     
     <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $book->id }}">
         Elimina
     </button>
 
-    <!-- Modal che scatta scegliendo "Elimina" -->
     <div class="modal fade" id="deleteModal-{{ $book->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $book->id }}" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

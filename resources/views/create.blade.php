@@ -52,7 +52,20 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
+<div class="mb-3">
+    <label for="author_id" class="form-label">Autore</label>
+    <select name="author_id" id="author_id" class="form-select @error('author_id') is-invalid @enderror">
+        <option value="">Seleziona un autore</option>
+        @foreach ($authors as $author)
+            <option value="{{ $author->id }}">
+                {{ $author->name }}
+            </option>
+        @endforeach
+    </select>
+    @error('author_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
                 <button type="submit" class="btn btn-primary">Salva</button>
             </form>
         </div>
