@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,8 +20,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mostra/{book}/modifica', [BookController::class, 'edit'])->name('edit');
     Route::put('/mostra/{book}', [BookController::class, 'update'])->name('update');
     Route::delete('/mostra/{book}', [BookController::class, 'destroy'])->name('destroy');
-
-
-Route::resource('/authors', AuthorController::class);
+    Route::resource('/authors', AuthorController::class);
+    Route::resource('/categories', CategoryController::class);
 });
-

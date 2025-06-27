@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Author;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 
@@ -15,7 +16,8 @@ class BookController extends Controller
   {
     $books = Book::all();
     $authors = Author::all();
-    return view('welcome', compact('books', 'authors'));
+    $categories = Category::all();
+    return view('welcome', compact('books', 'authors', 'categories'));
   }
 
   public function index()
@@ -37,6 +39,7 @@ class BookController extends Controller
       'years' => 'integer',
       'pages' => ['required', 'integer'],
       'author_id' => 'required',
+      'category' => 'nullable'
     ]);
 
     Book::create([
@@ -44,6 +47,7 @@ class BookController extends Controller
       'years' => $request->years,
       'pages' => $request->pages,
       'author_id' => $request->author_id,
+      'category_id' => $request->category,
     ]);
     return redirect()
       ->route('index')
@@ -59,16 +63,18 @@ class BookController extends Controller
   {
     $books = Book::all();
     $authors = Author::all();
-    return view('edit', compact('book', 'authors'));
+    $categories = Category::all();
+    return view('edit', compact('book', 'authors', 'category'));
   }
 
-  public function update(Request $request, Book $book, Author $author)
+  public function update(Request $request, Book $book, Author $author, Category $category)
   {
     $request->validate([
       'name' => 'required',
       'years' => 'integer',
       'pages' => ['required', 'integer'],
       'author_id' => 'required',
+      'category' => 'nullable',
     ]);
 
     $book->update([
@@ -76,13 +82,17 @@ class BookController extends Controller
       'years' => $request->years,
       'pages' => $request->pages,
       'author_id' => $request->author_id,
+      'category_id' => $request->category,
     ]);
 
     $author->update([
       'name' => $request->name,
       'dob' => $request->dob,
-
     ]);
+    $category->update([
+      'category' => $request->category,
+    ]);
+
     return redirect()
       ->route('index')
       ->with('success', 'Modificato con successo!');
